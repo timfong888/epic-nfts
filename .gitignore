@@ -1,6 +1,27 @@
+<<<<<<< HEAD
 node_modules
 .env
 
 #Hardhat files
 cache
 artifacts
+=======
+# Build and Release Folders
+bin-debug/
+bin-release/
+[Oo]bj/
+[Bb]in/
+
+# Other files and folders
+.settings/
+
+# Executables
+*.swf
+*.air
+*.ipa
+*.apk
+
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
+>>>>>>> eff45919fae7f8f7f97475f7f6a4a5d5c27dd610
