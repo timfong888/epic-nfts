@@ -15,6 +15,8 @@ contract MyEpicNFT is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     
+    uint public NFTcount = 0;
+    
     // VRF 
     bytes32 internal keyHash;
     uint256 internal fee;
@@ -30,6 +32,8 @@ contract MyEpicNFT is ERC721URIStorage {
     string[] firstWords = ["ROCK", "PAPER", "SCISSORS"];
     string[] secondWords = ["ROCK", "PAPER", "SCISSORS"];
     string[] thirdWords = ["ROCK", "PAPER", "SCISSORS"];
+    
+    event NewEpicNFTMinted(address sender, uint256 tokenId);
 
     
     constructor() ERC721 ("Quadrant", 'QuadrantNFT') {
@@ -74,10 +78,16 @@ contract MyEpicNFT is ERC721URIStorage {
       }
     
     function random(string memory input) internal pure returns (uint256) {
-      return uint256(keccak256(abi.encodePacked(input)));
+        return uint256(keccak256(abi.encodePacked(input)));
+    }
+    
+    function getTotalNFTsMintedSoFar() public view returns (uint) {
+        return NFTcount;
     }
     
     function makeAnEpicNFT() public {
+        require(NFTcount <= 50) ; //check that no more than 50 NFTs are minted
+        
         // get the current token ID and it starts with int208
         uint256 newItemId = _tokenIds.current();
         
@@ -88,6 +98,7 @@ contract MyEpicNFT is ERC721URIStorage {
         string memory third = pickRandomThirdWord(newItemId);
         
         string memory combinedWord = string(abi.encodePacked(first, second, third));
+    
         
         // I concatenate it all together, and then close the <text> and <svg> tags.
         string memory finalSvg = string(abi.encodePacked(baseSvg, '<tspan x="200" dy="1.2em">', first, "</tspan>", '<tspan x="200"  dy="1.2em">',second, '</tspan><tspan x="200" dy="1.2em">', third, "</tspan></text></svg>"));
@@ -128,6 +139,10 @@ contract MyEpicNFT is ERC721URIStorage {
         
         // increment the Counter
         _tokenIds.increment();
+        
+        NFTcount ++;
+        
+        emit NewEpicNFTMinted(msg.sender, newItemId);
         
 
     } 
