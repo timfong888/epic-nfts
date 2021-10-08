@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const main = async () => {
     const nftContractFactory = await hre.ethers.getContractFactory('MyEpicNFT');
     const nftContract = await nftContractFactory.deploy();
@@ -9,12 +11,14 @@ const main = async () => {
     
     // wait for it to be mined
     await txn.wait()
+    console.log("Minted NFT #1")
     
     // Mint another NFT for fun 
     txn = await nftContract.makeAnEpicNFT()
     
     // wait for it to be mined 
     await txn.wait()
+    console.log("Minted NFT #2")
     
 };
 
